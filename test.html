@@ -364,7 +364,14 @@
 
     devSection();
     group('Also checked, for whoever maintains this');
-    is('Opens in light mode regardless of the computer\u2019s setting', win.getComputedStyle(doc.body).backgroundColor, 'rgb(242, 236, 224)');
+    var sysDark = win.matchMedia('(prefers-color-scheme: dark)').matches;
+    is('Opens in whichever theme this computer prefers', doc.documentElement.getAttribute('data-theme'), sysDark ? 'dark' : 'light');
+    // force each palette so this holds whatever the machine running it prefers
+    doc.documentElement.setAttribute('data-theme', 'light');
+    is('Light is the cream palette', win.getComputedStyle(doc.body).backgroundColor, 'rgb(242, 236, 224)');
+    doc.documentElement.setAttribute('data-theme', 'dark');
+    is('Dark is the black palette', win.getComputedStyle(doc.body).backgroundColor, 'rgb(0, 0, 0)');
+    doc.documentElement.setAttribute('data-theme', sysDark ? 'dark' : 'light');
     ok('No em dashes in the writing', !/[\u2013\u2014]/.test(doc.body.innerText));
     reset();
   }

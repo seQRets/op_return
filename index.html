@@ -6,7 +6,7 @@
 <title>OP_RETURN Message Builder</title>
 <meta name="description" content="Write a message to the Bitcoin blockchain. Encode text to hex and follow step-by-step instructions for Trezor Suite or Bitcoin Core. Runs entirely in your browser.">
 <meta name="color-scheme" content="light dark">
-<script>try{var t=localStorage.getItem("opreturn-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script>try{var t=localStorage.getItem("opreturn-theme");if(t!=="dark"&&t!=="light")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 <meta property="og:title" content="OP_RETURN Message Builder">
 <meta property="og:description" content="Write a message to the Bitcoin blockchain. Runs entirely in your browser, nothing is sent anywhere.">
 <meta property="og:type" content="website">
@@ -1467,6 +1467,18 @@
     toggle.setAttribute('aria-pressed', dark ? 'true' : 'false');
     toggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
   }
+
+  // Keep following the system until the reader picks a side of their own.
+  var systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+  function storedTheme() {
+    try { return localStorage.getItem(THEME_KEY); } catch (e) { return null; }
+  }
+  systemDark.addEventListener('change', function (e) {
+    var pick = storedTheme();
+    if (pick === 'dark' || pick === 'light') return;
+    root.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+    syncToggle();
+  });
 
   toggle.addEventListener('click', function () {
     var next = isDark() ? 'light' : 'dark';
