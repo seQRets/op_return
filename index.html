@@ -98,10 +98,14 @@
   :root[data-theme="dark"] textarea:focus { background: rgba(255,255,255,0.06); }
   :root[data-theme="dark"] .nextbtn.is-ready {
     background: linear-gradient(to bottom right, #f59e0b, #f97316 55%, #ef4444);
+    background-clip: padding-box;
     border-color: transparent;
     color: #000;
     font-weight: 700;
-    box-shadow: 0 6px 18px -6px rgba(245,158,11,.55);
+    /* Keypath drops this glow 6px, which sits behind its soft-cornered
+       button. This one is a full pill, so an offset shadow pokes out along
+       the bottom curve as a bright crescent. Centred, it reads as a halo. */
+    box-shadow: 0 0 22px -6px rgba(245,158,11,.75);
   }
   :root[data-theme="dark"] .mode-btn[aria-pressed="true"],
   :root[data-theme="dark"] .inmode-btn[aria-pressed="true"] {
