@@ -33,6 +33,9 @@
     --danger: #b8412a;
     --danger-wash: #f7e6e1;
     --ok: #4b8b3b;
+    --ok-wash: #e9f1e3;
+    --on-accent: #fcf9f2;
+    --on-ink: #fcf9f2;
     --radius: 10px;
     --radius-sm: 6px;
     --shadow: 0 1px 2px rgba(20,24,28,.05), 0 6px 20px -8px rgba(20,24,28,.10);
@@ -43,27 +46,69 @@
        both ship a genuine heavy weight; Roboto covers Android. */
     --display: "Avenir Next", "Segoe UI", Roboto, "Helvetica Neue", -apple-system, sans-serif;
   }
-  /* Dark palette. Light is the default; dark is opt-in via the toggle. */
+  /* Dark palette, matching Keypath: black ground, translucent panels, amber
+     accent, rounder corners. Light is the default; dark is opt-in. */
   :root[data-theme="dark"] {
-    --bg: #15120d;
-    --bg-grad: radial-gradient(1200px 600px at 50% -10%, #221e16 0%, #18150f 55%, #12100b 100%);
-    --ink: #ece6da;
-    --ink-soft: #a8a091;
-    --ink-faint: #7b7466;
-    --panel: #1f1b14;
-    --panel-sunk: #191610;
-    --line: #362f24;
-    --line-soft: #2a251c;
-    --term-bg: #100e09;
-    --term-line: #2e2820;
-    --accent: #f0a04b;
-    --accent-ink: #f0a04b;
-    --accent-wash: #2e2110;
-    --danger: #e2705a;
-    --danger-wash: #2e1813;
-    --ok: #86c06f;
-    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 20px -8px rgba(0,0,0,.5);
-    --shadow-lift: 0 1px 2px rgba(0,0,0,.5), 0 14px 34px -12px rgba(0,0,0,.7);
+    --bg: #000000;
+    --bg-grad: none;
+    --ink: #f4f4f5;
+    --ink-soft: #a1a1aa;
+    --ink-faint: #6e6e77;
+    --panel: rgba(255,255,255,0.04);
+    --panel-sunk: rgba(255,255,255,0.03);
+    --line: rgba(255,255,255,0.10);
+    --line-soft: rgba(255,255,255,0.06);
+    --term-bg: #0a0a0a;
+    --term-line: rgba(255,255,255,0.10);
+    --accent: #f59e0b;
+    --accent-ink: #f59e0b;
+    --accent-wash: rgba(245,158,11,0.12);
+    --danger: #ef4444;
+    --danger-wash: rgba(239,68,68,0.12);
+    --ok: #2cdd96;
+    --ok-wash: rgba(44,221,150,0.10);
+    --shadow: none;
+    --shadow-lift: 0 14px 34px -12px rgba(0,0,0,.9);
+    --on-accent: #000;
+    --on-ink: #000;
+    --radius: 20px;
+    --radius-sm: 12px;
+  }
+
+  /* ---------- dark mode, the Keypath treatment ---------- */
+  /* The gradient that Keypath puts on its wordmark and its filled controls. */
+  :root[data-theme="dark"] h1 { letter-spacing: -0.04em; }
+  :root[data-theme="dark"] h1 .op,
+  :root[data-theme="dark"] .foot-brand .fb-name .op {
+    background: linear-gradient(to bottom right, #fbbf24, #f97316 55%, #ef4444);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    /* keeps the tail of the N inside the painted area */
+    padding-right: 0.12em;
+    margin-right: -0.12em;
+  }
+  :root[data-theme="dark"] .console { backdrop-filter: blur(10px); }
+  :root[data-theme="dark"] .console-bar { background: rgba(255,255,255,0.03); }
+  :root[data-theme="dark"] textarea {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.10);
+  }
+  :root[data-theme="dark"] textarea:focus { background: rgba(255,255,255,0.06); }
+  :root[data-theme="dark"] .nextbtn.is-ready {
+    background: linear-gradient(to bottom right, #f59e0b, #f97316 55%, #ef4444);
+    border-color: transparent;
+    color: #000;
+    font-weight: 700;
+    box-shadow: 0 6px 18px -6px rgba(245,158,11,.55);
+  }
+  :root[data-theme="dark"] .mode-btn[aria-pressed="true"],
+  :root[data-theme="dark"] .inmode-btn[aria-pressed="true"] {
+    background: linear-gradient(to bottom right, #f59e0b, #f97316 55%, #ef4444);
+    color: #000;
+    font-weight: 700;
+    box-shadow: none;
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -247,7 +292,7 @@
     cursor: pointer;
     transition: background .15s ease, color .15s ease;
   }
-  .warnbtn:hover { background: var(--accent-ink); color: var(--panel); }
+  .warnbtn:hover { background: var(--accent-ink); color: var(--on-accent); }
   .warnbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   .payload-size {
@@ -392,9 +437,9 @@
   .nextbtn.is-ready {
     background: var(--accent-ink);
     border-color: var(--accent-ink);
-    color: var(--panel);
+    color: var(--on-accent);
   }
-  .nextbtn.is-ready:hover { color: var(--panel); }
+  .nextbtn.is-ready:hover { color: var(--on-accent); }
 
   /* ---------- pre-send warning ---------- */
   .warnstrip {
@@ -576,7 +621,7 @@
   .path-card[aria-pressed="true"] .pc-title::before {
     border-color: var(--accent);
     background: var(--accent);
-    box-shadow: inset 0 0 0 2px var(--panel);
+    box-shadow: inset 0 0 0 2px var(--on-accent);
   }
   .path-card .pc-sub {
     display: block;
@@ -626,7 +671,7 @@
     cursor: pointer;
     transition: background .15s ease, color .15s ease;
   }
-  .blockbtn:hover { background: var(--danger); color: var(--panel); }
+  .blockbtn:hover { background: var(--danger); color: var(--on-accent); }
   .blockbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   .track { margin-top: 2rem; }
